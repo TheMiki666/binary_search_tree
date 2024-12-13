@@ -1,3 +1,13 @@
+#TESTS 1
+#Testing first methods of Tree:
+#initialize
+#pretty_print
+#ugly_print
+#clear
+#insert
+#find
+#build_tree (private)
+
 require_relative "lib/tree.rb"
 
 def insert_and_print(number)
@@ -47,6 +57,24 @@ p @my_tree.find(23)
 @my_tree.pretty_print(@my_tree.find(4))
 p @my_tree.find(666)
 puts "--------"
+
+puts "Let's see what would happen if we insert a repeated value"
+@my_tree.clear
+@my_tree.insert(666)
+@my_tree.insert(666)
+@my_tree.insert(666)
+@my_tree.pretty_print
+
+puts @my_tree.insert(300)
+puts @my_tree.insert(250)
+puts @my_tree.insert(275)
+puts @my_tree.insert(125)
+puts @my_tree.insert(750)
+puts @my_tree.insert(700)
+puts @my_tree.insert(250)
+puts @my_tree.insert(750)
+@my_tree.pretty_print
+
 
 
 

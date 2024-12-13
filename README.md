@@ -9,3 +9,7 @@ You have learned about binary search trees, where you take a group of data items
 Now, let’s take a look at balanced binary search trees (BST). A BST allows fast operations for lookup, insertion, and deletion of data items.
 
 You’ll build a balanced BST in this assignment. Do not use duplicate values because they make it more complicated and result in trees that are much harder to balance. Therefore, be sure to always remove duplicate values or check for an existing value before inserting.
+
+# TESTING
+
+Puts the tests in main directory if you want to try them

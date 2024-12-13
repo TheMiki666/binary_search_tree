@@ -1,3 +1,6 @@
+#TESTS 2
+#Testing Tree#delete method
+
 require_relative "lib/tree.rb"
 
 initial_array = []

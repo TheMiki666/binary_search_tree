@@ -17,84 +17,92 @@ module BinaryTree
         @data <=> other.data
       end
 
+      # Return true if the data is not repeated, so we could insert it
       def append(new_node)
         if (self <=> new_node) == 1
           #Go left
           if @left.nil?
             @left = new_node
+            true
           else 
             @left.append(new_node)
           end
-        else
+        elsif (self <=> new_node) == -1
           #Go right
           if @right.nil?
             @right = new_node
+            true
           else 
             @right.append(new_node)
           end
+        else
+          #data repeated
+          false
         end
-
-        def find(number)
-          if @data == number
-            self
-          elsif @data > number
-            if @left.nil?
-              nil
-            else
-              @left.find(number)
-            end
-          else
-            if @right.nil?
-              nil
-            else
-              @right.find(number)
-            end
-          end
-        end
-
-        # This function is used by Tree#find_child_and_parent
-        # Returns a hash with three elements
-        # "Child" is the node with the number we try to find;
-        # "Parent" is the node parent of the child. 
-        # "Side" is true if the child is attached to the right side of the parent, and false if it's the left side
-        # Returns nil instead of an array if the number is not found
-        def find_child_and_parent(number)
-          # It's impossible that this node is the child
-          if @data < number
-            if @right.nil?
-              nil
-            elsif @right.data == number
-              { :child => @right, :parent => self, :side => true }
-            else
-              @right.find_child_and_parent(number)
-            end
-          else
-            if @left.nil?
-              nil
-            elsif @left.data == number
-              { :child => @left, :parent => self, :side => false }
-            else
-              @left.find_child_and_parent(number)
-            end
-          end
-        end
-
-        # Return true if the node is a leaf (has no children), false if it is a branch
-        def is_leaf?
-          return @left.nil? && @right.nil?
-        end
-
       end
+
+      def find(number)
+        if @data == number
+          self
+        elsif @data > number
+          if @left.nil?
+            nil
+          else
+            @left.find(number)
+          end
+        else
+          if @right.nil?
+            nil
+          else
+            @right.find(number)
+          end
+        end
+      end
+
+      # This function is used by Tree#find_child_and_parent
+      # Returns a hash with three elements
+      # "Child" is the node with the number we try to find;
+      # "Parent" is the node parent of the child. 
+      # "Side" is true if the child is attached to the right side of the parent, and false if it's the left side
+      # Returns nil instead of an array if the number is not found
+      def find_child_and_parent(number)
+        # It's impossible that this node is the child
+        if @data < number
+          if @right.nil?
+            nil
+          elsif @right.data == number
+            { :child => @right, :parent => self, :side => true }
+          else
+            @right.find_child_and_parent(number)
+          end
+        else
+          if @left.nil?
+            nil
+          elsif @left.data == number
+            { :child => @left, :parent => self, :side => false }
+          else
+            @left.find_child_and_parent(number)
+          end
+        end
+      end
+
+      # Return true if the node is a leaf (has no children), false if it is a branch
+      def is_leaf?
+        return @left.nil? && @right.nil?
+      end
+
     end #of class Node
 
     def initialize(array = [])
       build_tree(array)
     end
 
+    # Return true if the data is not repeated, so we could insert it
     def insert(data)
       new_node = Node.new(data)
       if @root.nil?
         @root = new_node
+        true
       else
         @root.append(new_node)
       end
@@ -122,7 +130,7 @@ module BinaryTree
     end
 
     # Returns true if the number exits, so the node has been deleted
-     #!NOT TESTED
+     #TESTED!
     def delete(number)
       the_hash = find_child_and_parent(number)
       return false if the_hash.nil?
@@ -161,7 +169,7 @@ module BinaryTree
       end
     end
 
-    #!NOT TESTED
+    #TESTED!
     def kill_child(the_hash)
       victim = the_hash[:child] #victim means: node to dissapear
       parent = the_hash[:parent]
@@ -189,7 +197,7 @@ module BinaryTree
       true
     end
 
-    #!NOT TESTED
+    #TESTED!
     def replace_child(parent, right_side, replacement)
       if parent.nil?
         @root = replacement
@@ -216,7 +224,7 @@ module BinaryTree
     end
     
     #returns a hash with the node with next greater number, and its parent
-     #!NOT TESTED
+     #TESTED
     def find_next_greater_number(node)
       if node.right.left.nil?
         {:child => node.right, :parent => node, :side => true}
@@ -224,7 +232,7 @@ module BinaryTree
         find_least_left_node(node.right, node)
       end 
     end
- #!NOT TESTED
+ #TESTED
     def find_least_left_node(node, node_parent)
       if node.left.nil?
         {:child => node, :parent => node_parent, :side => false}
