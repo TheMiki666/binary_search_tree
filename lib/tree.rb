@@ -2,6 +2,12 @@ module BinaryTree
 
   class Tree
 
+    #This class is just used to manage empty arguments 
+    #(Like politicians do, hehe!)
+    class EmptyClass
+      
+    end
+
     class Node 
       include Comparable
 
@@ -41,20 +47,21 @@ module BinaryTree
         end
       end
 
-      def find(number)
+      #This method is called by Tree#find and Tree#depth
+      def search(number, deepness)
         if @data == number
-          self
+          {:node => self, :deepness => deepness}
         elsif @data > number
           if @left.nil?
-            nil
+            {:node => nil, :deepness => 0}
           else
-            @left.find(number)
+            @left.search(number, deepness + 1)
           end
         else
           if @right.nil?
-            nil
+            {:node => nil, :deepness => 0}
           else
-            @right.find(number)
+            @right.search(number, deepness + 1)
           end
         end
       end
@@ -169,8 +176,19 @@ module BinaryTree
       if @root.nil?
         nil
       else
-        @root.find(number)
+        @root.search(number, 1)[:node]
       end
+    end
+
+    def depth(number = EmptyClass.new)
+      return 0 if number.nil?
+      return height if number.instance_of?(EmptyClass)
+      number = number.data if number.instance_of?(Node)
+      if @root.nil?
+        nil
+      else
+        @root.search(number, 1)[:deepness]
+      end 
     end
 
     # Returns true if the number exits, so the node has been deleted
@@ -239,9 +257,13 @@ module BinaryTree
       build_tree(inorder)
     end
 
-    def height(data=nil)
-      if data.nil?
+    def height(data=EmptyClass.new)
+      if data.nil? 
+        node = nil
+      elsif data.instance_of?(EmptyClass)
         node = @root
+      elsif data.instance_of?(Node)
+        node = data
       else
         node = find(data)
       end

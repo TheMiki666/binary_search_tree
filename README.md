@@ -22,3 +22,8 @@ Puts the tests in main directory if you want to try them
   - They allow to operate with an accumulator, passed as a second argument in the block (you can also set the initial value of the accumulator, passing it
   as a second parameter of the method)
   - After the operation, the tree is reorder and rebalanced (other wise, the logical order of the tree would became altered)
+
+* Methods #depth and #height can accept a node, a data, nil and even nothing (no arguments). 
+    - With no arguments,  it gives the maximum depth (or height) of the tree
+    - If argument is nil, both methods return 0
+    - If argument is data, it tries to find the correspondet node; if it doesn't exists, return 0
