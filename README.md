@@ -13,3 +13,12 @@ You’ll build a balanced BST in this assignment. Do not use duplicate values be
 # TESTING
 
 Puts the tests in main directory if you want to try them
+
+# COMMENTARIES
+
+ * #level_order, #preorder, #inorder and #postorder has new features:
+  - They can start in any note (you have to insert the corresponding data as an argument)
+  - Thet return an array with the results, even when you have given a block
+  - They allow to operate with an accumulator, passed as a second argument in the block (you can also set the initial value of the accumulator, passing it
+  as a second parameter of the method)
+  - After the operation, the tree is reorder and rebalanced (other wise, the logical order of the tree would became altered)

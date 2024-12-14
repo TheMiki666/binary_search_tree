@@ -137,6 +137,34 @@ module BinaryTree
       kill_child(the_hash)
     end
 
+    # It returns the array of data if no block is given,
+    # But also the block of new data if block is given
+    def level_order(first_data = @root.data, initial_accumulator = 0)
+      first_node = find(first_data)
+      return nil if first_node.nil?
+      queue =[first_node]
+      response = []
+      accumulator = initial_accumulator
+      while queue.length > 0
+        node = queue.shift
+        if block_given? 
+          node.data = yield node.data, accumulator
+          accumulator = node.data
+        end
+        response << node.data
+        queue.push(node.left) if !node.left.nil?
+        queue.push(node.right) if !node.right.nil?
+      end
+      #Here we must reorder the tree, because the logical order of the tree must have changed
+      rebalance
+      response
+    end
+
+
+    def rebalance
+      build_tree(take_all_data)
+    end
+
     def pretty_print(node = @root, prefix = '', is_left = true)
       if @root.nil?
         puts "(Empty tree)"
@@ -152,6 +180,19 @@ module BinaryTree
     end
 
     private
+
+    def take_all_data
+      queue =[@root]
+      response = []
+      while queue.length > 0
+        node = queue.shift
+        response << node.data
+        queue.push(node.left) if !node.left.nil?
+        queue.push(node.right) if !node.right.nil?
+      end
+      response
+    end
+
 
     # TESTED!
     # Returns a hash with three elements
