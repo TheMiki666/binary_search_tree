@@ -91,6 +91,24 @@ module BinaryTree
         return @left.nil? && @right.nil?
       end
 
+      def inorder(the_hash, &block)
+        @left.inorder(the_hash, &block) if !@left.nil?
+        do_stuff_with_data(the_hash, &block)
+        @right.inorder(the_hash, &block) if !@right.nil?
+        the_hash
+      end
+
+      private
+
+      #This function works with the data when is called by inorder, preorder and postorder
+      def do_stuff_with_data(the_hash, &block)
+        if block_given?
+          @data = yield @data, the_hash[:accumulator]
+          the_hash[:accumulator] = @data
+        end
+        the_hash[:response] << @data
+      end
+
     end #of class Node
 
     def initialize(array = [])
@@ -139,10 +157,10 @@ module BinaryTree
 
     # It returns the array of data if no block is given,
     # But also the block of new data if block is given
-    def level_order(first_data = @root.data, initial_accumulator = 0)
-      first_node = find(first_data)
-      return nil if first_node.nil?
-      queue =[first_node]
+    def level_order(first_data = nil, initial_accumulator = 0)
+      fn = first_node(first_data)
+      return nil if fn.nil?
+      queue =[fn]
       response = []
       accumulator = initial_accumulator
       while queue.length > 0
@@ -156,13 +174,25 @@ module BinaryTree
         queue.push(node.right) if !node.right.nil?
       end
       #Here we must reorder the tree, because the logical order of the tree must have changed
-      rebalance
+      rebalance if block_given?
       response
     end
 
+    # It returns the array of data if no block is given,
+    # But also the block of new data if block is given
+    def inorder(first_data = @root.data, initial_accumulator = 0, &block) 
+      fn = first_node(first_data)
+      return nil if fn.nil?
+      response = []
+      result = fn.inorder({:response =>response, :accumulator => initial_accumulator}, &block)
+      rebalance if block_given?
+      result[:response]
+    end
 
     def rebalance
-      build_tree(take_all_data)
+      # Uncomment next line if you want to know when the tree is rebalancing
+      puts "Rebalancing"
+      build_tree(inorder)
     end
 
     def pretty_print(node = @root, prefix = '', is_left = true)
@@ -181,18 +211,13 @@ module BinaryTree
 
     private
 
-    def take_all_data
-      queue =[@root]
-      response = []
-      while queue.length > 0
-        node = queue.shift
-        response << node.data
-        queue.push(node.left) if !node.left.nil?
-        queue.push(node.right) if !node.right.nil?
+    def first_node(first_data)
+      if first_data.nil?
+        @root
+      else
+        find(first_data)
       end
-      response
     end
-
 
     # TESTED!
     # Returns a hash with three elements
