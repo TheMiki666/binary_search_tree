@@ -98,6 +98,20 @@ module BinaryTree
         the_hash
       end
 
+      def preorder(the_hash, &block)
+        do_stuff_with_data(the_hash, &block)
+        @left.preorder(the_hash, &block) if !@left.nil?
+        @right.preorder(the_hash, &block) if !@right.nil?
+        the_hash
+      end
+
+      def postorder(the_hash, &block)
+        @left.postorder(the_hash, &block) if !@left.nil?
+        @right.postorder(the_hash, &block) if !@right.nil?
+        do_stuff_with_data(the_hash, &block)
+        the_hash
+      end
+
       private
 
       #This function works with the data when is called by inorder, preorder and postorder
@@ -185,6 +199,24 @@ module BinaryTree
       return nil if fn.nil?
       response = []
       result = fn.inorder({:response =>response, :accumulator => initial_accumulator}, &block)
+      rebalance if block_given?
+      result[:response]
+    end
+
+    def preorder(first_data = @root.data, initial_accumulator = 0, &block) 
+      fn = first_node(first_data)
+      return nil if fn.nil?
+      response = []
+      result = fn.preorder({:response =>response, :accumulator => initial_accumulator}, &block)
+      rebalance if block_given?
+      result[:response]
+    end
+
+    def postorder(first_data = @root.data, initial_accumulator = 0, &block) 
+      fn = first_node(first_data)
+      return nil if fn.nil?
+      response = []
+      result = fn.postorder({:response =>response, :accumulator => initial_accumulator}, &block)
       rebalance if block_given?
       result[:response]
     end

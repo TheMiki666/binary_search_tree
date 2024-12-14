@@ -76,3 +76,46 @@ p @my_tree.inorder {|x, acc| x+acc} #ok
 p @my_tree.inorder(3,100) {|x, acc| x+acc} #ok
 @my_tree.pretty_print
 
+puts "Testing preorder and postorder"
+initial_array = []
+(1..31).each {|i| initial_array << i}
+@my_tree.build_tree(initial_array)
+@my_tree.pretty_print
+p @my_tree.preorder #ok
+p @my_tree.postorder #ok
+p @my_tree.preorder(4) #ok
+p @my_tree.postorder(4) #ok
+p @my_tree.preorder(32) #ok
+p @my_tree.postorder(32) #ok
+p @my_tree.preorder {|x| -1*x} #ok
+@my_tree.pretty_print
+p @my_tree.postorder{|x| -10*x} #ok
+@my_tree.pretty_print
+
+puts "Testing opperations with accummulator"
+initial_array = []
+(1..7).each {|i| initial_array << i}
+@my_tree.build_tree(initial_array)
+@my_tree.pretty_print
+p @my_tree.preorder {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.preorder(nil, 1000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.preorder(666, 1000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.preorder(1010, 1000000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+
+initial_array = []
+(1..7).each {|i| initial_array << i}
+@my_tree.build_tree(initial_array)
+@my_tree.pretty_print
+p @my_tree.postorder {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.postorder(nil, 1000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.postorder(666, 1000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+p @my_tree.postorder(1011, 1000000) {|x, acc| x+acc} #ok
+@my_tree.pretty_print
+
