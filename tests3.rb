@@ -1,6 +1,5 @@
-#TESTS 2
+#TESTS 3
 #Testing Tree#lever_order, #rebalance #inorder, #preorder and #postorder
-#
 
 require_relative "lib/tree.rb"
 

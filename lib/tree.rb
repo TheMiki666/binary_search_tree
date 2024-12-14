@@ -112,6 +112,18 @@ module BinaryTree
         the_hash
       end
 
+      def height(previus)
+        if self.is_leaf?
+          previus
+        elsif @left.nil? && !@right.nil?
+          @right.height(previus+1)
+        elsif !@left.nil? && @right.nil?
+          @left.height(previus+1)
+        else
+          [@left.height(previus+1), @right.height(previus+1)].max
+        end
+      end
+
       private
 
       #This function works with the data when is called by inorder, preorder and postorder
@@ -223,8 +235,18 @@ module BinaryTree
 
     def rebalance
       # Uncomment next line if you want to know when the tree is rebalancing
-      puts "Rebalancing"
+      # puts "Rebalancing"
       build_tree(inorder)
+    end
+
+    def height(data=nil)
+      if data.nil?
+        node = @root
+      else
+        node = find(data)
+      end
+      return 0 if node.nil?
+      node.height(1)
     end
 
     def pretty_print(node = @root, prefix = '', is_left = true)
