@@ -1,5 +1,5 @@
 # binary_search_tree
-Binary Search Tree exercise frome The Odin Project
+Binary Search Tree exercise from The Odin Project
 
 https://www.theodinproject.com/lessons/ruby-binary-search-trees
 
