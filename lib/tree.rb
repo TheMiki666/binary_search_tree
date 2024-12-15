@@ -131,6 +131,18 @@ module BinaryTree
         end
       end
 
+      def balanced?
+        if is_leaf?
+          true
+        elsif @left.nil? && !@right.nil?
+          @right.is_leaf?
+        elsif !@left.nil? && @right.nil?
+          @left.is_leaf?
+        else
+          @left.balanced? && @right.balanced? && (@left.height(0)-@right.height(0)).abs <=1
+        end
+      end
+
       private
 
       #This function works with the data when is called by inorder, preorder and postorder
@@ -269,6 +281,14 @@ module BinaryTree
       end
       return 0 if node.nil?
       node.height(1)
+    end
+
+    def balanced?
+      if @root.nil?
+        true
+      else
+        @root.balanced?
+      end
     end
 
     def pretty_print(node = @root, prefix = '', is_left = true)

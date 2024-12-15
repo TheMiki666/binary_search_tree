@@ -50,3 +50,44 @@ my_node = @my_tree.find(49)
 p @my_tree.depth(my_node) #ok
 p @my_tree.depth(nil) #ok
 p @my_tree.depth #ok
+
+puts "Testing balanced?"
+@my_tree.clear
+puts @my_tree.balanced? #ok
+(1..7).each {|i| @my_tree.insert(i*10)}
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.rebalance
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.insert(35)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.insert(65)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.delete(50)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.rebalance
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.insert(25)
+@my_tree.insert(33)
+@my_tree.insert(37)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.delete(60)
+@my_tree.delete(70)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.insert(68)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok; it seems strange; but, according with the definition o balanced, that's true
+@my_tree.insert(23)
+@my_tree.insert(27)
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
+@my_tree.rebalance
+@my_tree.pretty_print 
+puts @my_tree.balanced? #ok
